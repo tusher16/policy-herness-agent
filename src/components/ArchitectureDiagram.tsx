@@ -40,25 +40,25 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
 
   // Dynamic progress values for SVG progress bars
   const searchProgressW = isObserveActive || isReasonActive || isActActive || isOutputGuardActive || isAlertActive
-    ? 60 : simulationProgress > 20 && currentStep === 'OBSERVE' ? 44 : 10;
+    ? 50 : simulationProgress > 20 && currentStep === 'OBSERVE' ? 36 : 10;
   const pageProgressW = isObserveActive || isReasonActive || isActActive || isOutputGuardActive || isAlertActive
-    ? 45 : simulationProgress > 40 && currentStep === 'OBSERVE' ? 24 : 5;
+    ? 38 : simulationProgress > 40 && currentStep === 'OBSERVE' ? 20 : 5;
   const parseProgressW = isObserveActive || isReasonActive || isActActive || isOutputGuardActive || isAlertActive
-    ? 60 : simulationProgress > 70 && currentStep === 'OBSERVE' ? 36 : 8;
+    ? 50 : simulationProgress > 70 && currentStep === 'OBSERVE' ? 30 : 8;
 
   const diffProgressW = isReasonActive || isActActive || isOutputGuardActive || isAlertActive
-    ? 54 : simulationProgress > 30 && currentStep === 'REASON' ? 24 : 8;
+    ? 45 : simulationProgress > 30 && currentStep === 'REASON' ? 20 : 8;
   const rankProgressW = isReasonActive || isActActive || isOutputGuardActive || isAlertActive
-    ? 48 : simulationProgress > 60 && currentStep === 'REASON' ? 20 : 6;
+    ? 40 : simulationProgress > 60 && currentStep === 'REASON' ? 16 : 6;
   const confProgressW = isReasonActive || isActActive || isOutputGuardActive || isAlertActive
-    ? 58 : simulationProgress > 80 && currentStep === 'REASON' ? 30 : 10;
+    ? 50 : simulationProgress > 80 && currentStep === 'REASON' ? 25 : 10;
 
   const sumProgressW = isActActive || isOutputGuardActive || isAlertActive
-    ? 55 : simulationProgress > 40 && currentStep === 'ACT' ? 25 : 5;
+    ? 46 : simulationProgress > 40 && currentStep === 'ACT' ? 25 : 5;
   const notifyProgressW = isActActive || isOutputGuardActive || isAlertActive
-    ? 48 : simulationProgress > 70 && currentStep === 'ACT' ? 20 : 5;
+    ? 40 : simulationProgress > 70 && currentStep === 'ACT' ? 20 : 5;
   const tokenProgressW = isActActive || isOutputGuardActive || isAlertActive
-    ? 60 : simulationProgress > 90 && currentStep === 'ACT' ? 30 : 6;
+    ? 50 : simulationProgress > 90 && currentStep === 'ACT' ? 30 : 6;
 
   // Confidence displays
   const displayedConfidence = activeScenario?.behaviorType === 'low_confidence' && isFeedbackActive
@@ -296,18 +296,18 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           
           {/* Dynamic Observe status rows & progress meters */}
           <text x="348" y="234" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">web_search</text>
-          <rect x="424" y="225" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
-          <rect x="424" y="225" width={searchProgressW * 1.1} height="10" rx="2.5" fill="#10b981" className="transition-all duration-500"/>
+          <rect x="440" y="225" width="50" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="440" y="225" width={searchProgressW} height="10" rx="2.5" fill="#10b981" className="transition-all duration-500"/>
           
           <text x="348" y="254" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">page_fetcher</text>
-          <rect x="424" y="245" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
-          <rect x="424" y="245" width={pageProgressW * 1.1} height="10" rx="2.5" fill="#34d399" className="transition-all duration-500"/>
+          <rect x="440" y="245" width="50" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="440" y="245" width={pageProgressW} height="10" rx="2.5" fill="#34d399" className="transition-all duration-500"/>
           
           <text x="348" y="278" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#16a34a" fontWeight="600">
             {activeScenario ? `${activeScenario.observeResults.sources.length} sources found` : '6 sources found'}
           </text>
-          <rect x="424" y="270" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
-          <rect x="424" y="270" width={parseProgressW * 1.1} height="10" rx="2.5" fill="#047857" className="transition-all duration-500"/>
+          <rect x="440" y="270" width="50" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="440" y="270" width={parseProgressW} height="10" rx="2.5" fill="#047857" className="transition-all duration-500"/>
         </g>
 
         {/* OBSERVE → REASON Flow Arrow */}
@@ -345,20 +345,20 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           <text x="548" y="212" fontFamily="'Space Mono', monospace" fontSize="9" fontWeight="700" fill="#1d4ed8" textAnchor="middle" letterSpacing=".04em">LLM</text>
           
           <text x="534" y="234" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">diff_engine</text>
-          <rect x="610" y="225" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
-          <rect x="610" y="225" width={diffProgressW * 1.1} height="10" rx="2.5" fill="#10b981" className="transition-all duration-500"/>
+          <rect x="626" y="225" width="50" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="626" y="225" width={diffProgressW} height="10" rx="2.5" fill="#10b981" className="transition-all duration-500"/>
           
           <text x="534" y="254" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">source ranking</text>
-          <rect x="610" y="245" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
-          <rect x="610" y="245" width={rankProgressW * 1.1} height="10" rx="2.5" fill="#34d399" className="transition-all duration-500"/>
+          <rect x="626" y="245" width="50" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="626" y="245" width={rankProgressW} height="10" rx="2.5" fill="#34d399" className="transition-all duration-500"/>
           
           <text x="534" y="278" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#16a34a" fontWeight="600">
             conf: {displayedConfidence}
           </text>
-          <rect x="610" y="270" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="626" y="270" width="50" height="10" rx="2.5" fill="#f3f4f0"/>
           <rect 
-            x="610" y="270" 
-            width={(activeScenario?.behaviorType === 'low_confidence' && isFeedbackActive ? 22 : confProgressW) * 1.1} 
+            x="626" y="270" 
+            width={activeScenario?.behaviorType === 'low_confidence' && isFeedbackActive ? 22 : confProgressW} 
             height="10" rx="2.5" 
             fill={activeScenario?.behaviorType === 'low_confidence' && isFeedbackActive ? '#f97316' : '#047857'} 
             className="transition-all duration-500"
@@ -400,18 +400,18 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           <text x="734" y="212" fontFamily="'Space Mono', monospace" fontSize="9" fontWeight="700" fill="#1d4ed8" textAnchor="middle" letterSpacing=".04em">LLM</text>
           
           <text x="720" y="234" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">summarizer</text>
-          <rect x="796" y="225" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
-          <rect x="796" y="225" width={sumProgressW * 1.1} height="10" rx="2.5" fill="#10b981" className="transition-all duration-500"/>
+          <rect x="812" y="225" width="50" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="812" y="225" width={sumProgressW} height="10" rx="2.5" fill="#10b981" className="transition-all duration-500"/>
           
           <text x="720" y="254" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">notifier</text>
-          <rect x="796" y="245" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
-          <rect x="796" y="245" width={notifyProgressW * 1.1} height="10" rx="2.5" fill="#34d399" className="transition-all duration-500"/>
+          <rect x="812" y="245" width="50" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="812" y="245" width={notifyProgressW} height="10" rx="2.5" fill="#34d399" className="transition-all duration-500"/>
           
           <text x="720" y="278" fontFamily="'IBM Plex Sans', sans-serif" fontSize="9.5" fill="#16a34a" fontWeight="600">
             {activeScenario ? `${activeScenario.actResults.tokensUsed} tok · $${activeScenario.actResults.costUsd.toFixed(5)}` : '2100 tok · $0.00004'}
           </text>
-          <rect x="796" y="270" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
-          <rect x="796" y="270" width={tokenProgressW * 1.1} height="10" rx="2.5" fill="#047857" className="transition-all duration-500"/>
+          <rect x="812" y="270" width="50" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="812" y="270" width={tokenProgressW} height="10" rx="2.5" fill="#047857" className="transition-all duration-500"/>
         </g>
 
         {/* ── FEEDBACK ARC (REASON → OBSERVE when low confidence) ────── */}
@@ -596,12 +596,12 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           <text x="349" y="408" fontFamily="'Space Mono', monospace" fontSize="12" fontWeight="700" fill="#374151" letterSpacing=".05em">MEMORY</text>
           
           {/* vertical separator */}
-          <line x1="436" y1="394" x2="436" y2="414" stroke="#e2e6df" strokeWidth="1"/>
+          <line x1="418" y1="394" x2="418" y2="414" stroke="#e2e6df" strokeWidth="1"/>
           
-          <text x="446" y="408" fontFamily="'IBM Plex Sans', sans-serif" fontSize="11" fill="#9ca3af">sources · preferences · alerts</text>
+          <text x="428" y="408" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#9ca3af">telemetry cache</text>
           
           {/* Dynamic real-time stats display in Memory block! */}
-          <text x="734" y="407" fontFamily="'Space Mono', monospace" fontSize="9.5" fill="#9ca3af" textAnchor="end">
+          <text x="734" y="407" fontFamily="'Space Mono', monospace" fontSize="9" fill="#9ca3af" textAnchor="end">
             {activeScenario?.behaviorType === 'low_confidence' 
               ? 'Sources: 4  ·  Prefs: 1  ·  Alerts: 1'
               : activeScenario?.behaviorType === 'injection'
