@@ -529,7 +529,14 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
             strokeWidth={isAlertActive ? '2' : '.8'}
           />
           {/* Spacing resolved: bullet cx=1076, text x=1089 (diff is 13px) */}
-          <circle cx="1076" cy="206" r="3.5" fill="#16a34a" className={isAlertActive ? 'animate-ping' : ''}/>
+          <circle 
+            cx="1076" 
+            cy="206" 
+            r="3.5" 
+            fill="#16a34a" 
+            className={isAlertActive ? 'animate-ping' : ''}
+            style={{ transformOrigin: '1076px 206px' }}
+          />
           <circle cx="1076" cy="206" r="3.5" fill="#16a34a" />
           <text x="1089" y="210" fontFamily="'Space Mono', monospace" fontSize="9.5" fontWeight="700" fill="#15803d" letterSpacing=".05em">ALERT</text>
           <text x="1076" y="228" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8.5" fill="#16a34a" fontWeight="500">
