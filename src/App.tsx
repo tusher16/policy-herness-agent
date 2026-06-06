@@ -1410,8 +1410,9 @@ export default function App() {
                   </button>
                 </div>
 
-                {/* Prompt trigger command block inline */}
-                <div className="flex-1 max-w-sm flex items-center gap-1 bg-slate-100 dark:bg-[#161d14] rounded p-1 border dark:border-slate-800">
+                <div className={`flex-1 max-w-sm flex items-center gap-1 rounded p-1 border
+                  ${theme === 'dark' ? 'bg-[#161d14] border-slate-800' : 'bg-slate-100 border-slate-200'}`}
+                >
                   <input 
                     type="text"
                     value={topic}
@@ -1871,9 +1872,13 @@ export default function App() {
 
             {activeTab === "harness_trace" && (
               <div className="overflow-x-auto select-none">
-                <table className="w-full text-left font-mono text-[10.5px] border-collapse bg-white/70 dark:bg-transparent">
+                <table className={`w-full text-left font-mono text-[10.5px] border-collapse
+                  ${theme === 'dark' ? 'bg-transparent' : 'bg-white/70'}`}
+                >
                   <thead>
-                    <tr className="border-b border-slate-700/50 text-slate-500 tracking-wider">
+                    <tr className={`border-b tracking-wider
+                      ${theme === 'dark' ? 'border-[#252f23] text-slate-400' : 'border-slate-200 text-slate-500'}`}
+                    >
                       <th className="py-2 px-6 font-bold uppercase text-[9px]">Step</th>
                       <th className="py-2 px-4 font-bold uppercase text-[9px]">Status</th>
                       <th className="py-2 px-4 font-bold uppercase text-[9px]">Latency</th>
@@ -1882,12 +1887,18 @@ export default function App() {
                       <th className="py-2 px-6 text-center font-bold uppercase text-[9px]">Loop Retry rate</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-700/30 text-slate-300">
+                  <tbody className={`divide-y divide-slate-700/30
+                    ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}
+                  >
                     {logs.map((log) => (
-                      <tr key={log.id} className="hover:bg-slate-800/10">
+                      <tr key={log.id} className={theme === 'dark' ? 'hover:bg-slate-800/10' : 'hover:bg-slate-200/40'}>
                         <td className="py-2 px-6 font-bold flex flex-col">
                           <span className="text-[10px] uppercase font-bold text-emerald-500">{log.stepName}</span>
-                          <span className="text-[8.5px] font-mono text-slate-450">{log.subType}</span>
+                          <span className={`text-[8.5px] font-mono
+                            ${theme === 'dark' ? 'text-slate-450' : 'text-slate-500'}`}
+                          >
+                            {log.subType}
+                          </span>
                         </td>
                         <td className="py-2 px-4">
                           <span className={`px-2 py-0.5 rounded text-[8px] font-mono font-bold tracking-wider 
@@ -1902,11 +1913,21 @@ export default function App() {
                             {log.status}
                           </span>
                         </td>
-                        <td className="py-2 px-4 text-[10px] text-slate-400">
+                        <td className={`py-2 px-4 text-[10px]
+                          ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}
+                        >
                           {log.durationMs > 0 ? `${log.durationMs}ms` : '—'}
                         </td>
-                        <td className="py-2 px-4 text-slate-455 text-[10px] truncate max-w-[120px]">{log.modelName}</td>
-                        <td className="py-2 px-4 text-slate-300 text-[10px] font-bold">{log.tokens}</td>
+                        <td className={`py-2 px-4 text-[10px] truncate max-w-[120px]
+                          ${theme === 'dark' ? 'text-slate-400' : 'text-slate-650'}`}
+                        >
+                          {log.modelName}
+                        </td>
+                        <td className={`py-2 px-4 text-[10px] font-bold
+                          ${theme === 'dark' ? 'text-slate-300' : 'text-slate-800'}`}
+                        >
+                          {log.tokens}
+                        </td>
                         <td className="py-2 px-6 text-center text-[10px] font-mono">
                           {log.retryCount}
                         </td>
@@ -1925,9 +1946,17 @@ export default function App() {
                   </div>
                 ) : (
                   toolsLog.map((t, idx) => (
-                    <div key={idx} className="p-2 border rounded font-mono text-[10.5px] leading-relaxed dark:bg-[#121810]/40 dark:border-slate-800">
+                    <div 
+                      key={idx} 
+                      className={`p-2 border rounded font-mono text-[10.5px] leading-relaxed
+                        ${theme === 'dark' 
+                          ? 'bg-[#121810]/40 border-slate-800 text-slate-300' 
+                          : 'bg-white border-slate-200 text-slate-700'}`}
+                    >
                       <div className="flex items-center gap-2">
-                        <span className="text-slate-505 font-mono text-[9px]">
+                        <span className={`font-mono text-[9px]
+                          ${theme === 'dark' ? 'text-slate-450' : 'text-slate-500'}`}
+                        >
                           {new Date(t.ts).toLocaleTimeString()}
                         </span>
                         <span className="px-1.5 py-0.5 bg-emerald-500/10 text-emerald-500 font-bold uppercase rounded text-[8px]">
@@ -1938,9 +1967,19 @@ export default function App() {
                             {t.status}
                           </span>
                         )}
-                        {t.resultCount > 0 && <span className="text-slate-455 ml-auto">{t.resultCount} pages analyzed</span>}
+                        {t.resultCount > 0 && (
+                          <span className={`ml-auto text-[9.5px]
+                            ${theme === 'dark' ? 'text-slate-455' : 'text-slate-500'}`}
+                          >
+                            {t.resultCount} pages analyzed
+                          </span>
+                        )}
                       </div>
-                      <div className="text-slate-350 mt-1">{t.query ? `&gt;&gt; Crawl Query: ${t.query}` : t.msg}</div>
+                      <div className={`mt-1
+                        ${theme === 'dark' ? 'text-slate-350' : 'text-slate-650'}`}
+                      >
+                        {t.query ? `>> Crawl Query: ${t.query}` : t.msg}
+                      </div>
                       {t.urls && t.urls.length > 0 && (
                         <div className="mt-1 flex flex-col gap-0.5 text-[9.5px] text-emerald-700/90 pl-3">
                           {t.urls.map((u: string, uindex: number) => <span key={uindex} className="truncate select-all">↳ {u}</span>)}
@@ -1965,11 +2004,19 @@ export default function App() {
                     </span>
                     
                     <div className="flex-1 font-mono">
-                      <div className="text-slate-300 text-[11px] font-bold">{check.label}</div>
+                      <div className={`text-[11px] font-bold
+                        ${theme === 'dark' ? 'text-slate-300' : 'text-slate-850'}`}
+                      >
+                        {check.label}
+                      </div>
                       <div className="text-[9px] text-slate-500">{check.sub}</div>
                     </div>
                     
-                    <span className="font-mono text-[10px] text-slate-455 text-right">{check.detail}</span>
+                    <span className={`font-mono text-[10px] text-right
+                      ${theme === 'dark' ? 'text-slate-455' : 'text-slate-600'}`}
+                    >
+                      {check.detail}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -1996,8 +2043,12 @@ export default function App() {
                   <span className="font-mono text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Topic run preference cache ({memory.preferences?.length || 0})</span>
                   <div className="flex flex-col gap-1 text-[11px] font-mono">
                     {memory.preferences && memory.preferences.map((p: any, i: number) => (
-                      <div key={i} className="flex justify-between p-1 rounded bg-[#1e251d]">
-                        <span className="text-slate-350">{p.topic}</span>
+                      <div 
+                        key={i} 
+                        className={`flex justify-between p-1 rounded
+                          ${theme === 'dark' ? 'bg-[#1e251d]' : 'bg-[#eef1ec]'}`}
+                      >
+                        <span className={theme === 'dark' ? 'text-slate-350' : 'text-slate-700'}>{p.topic}</span>
                         <span className="text-slate-500 text-[9px]">{new Date(p.ts).toLocaleTimeString()}</span>
                       </div>
                     ))}
@@ -2015,7 +2066,7 @@ export default function App() {
                     value={model}
                     onChange={(e) => updateModel(e.target.value)}
                     className={`w-full p-1.5 rounded border focus:outline-none focus:border-emerald-555
-                      ${theme === 'dark' ? 'bg-[#1a2118] border-slate-800 text-slate-200' : 'bg-white border-slate-200'}`}
+                      ${theme === 'dark' ? 'bg-[#1a2118] border-slate-800 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}
                   />
                   <p className="text-[9px] text-slate-500 mt-1">Default model: mistralai/mistral-nemo. Keep intact for formatting compatibility.</p>
                 </div>
@@ -2042,7 +2093,9 @@ export default function App() {
             className={`w-full max-w-xl rounded-lg shadow-2xl border flex flex-col overflow-hidden transition-all duration-300
               ${theme === 'dark' ? 'bg-[#151c14] border-slate-800 text-slate-100' : 'bg-[#eef1ec] border-slate-300 text-slate-900'}`}
           >
-            <div className="flex items-center justify-between p-3.5 border-b dark:border-[#252f23]">
+            <div className={`flex items-center justify-between p-3.5 border-b
+              ${theme === 'dark' ? 'border-[#252f23]' : 'border-slate-250'}`}
+            >
               <div>
                 <span className="font-mono text-xs font-bold text-emerald-500 uppercase tracking-widest block">Command Terminal Context</span>
                 <span className="font-mono text-[9px] text-slate-450 uppercase">human prompt interface</span>
