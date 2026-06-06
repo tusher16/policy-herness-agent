@@ -1259,17 +1259,23 @@ export default function App() {
           >
             
             {/* The SVG Diagram wrapper card layout */}
-            <div className={`rounded border overflow-hidden relative shadow-2xs min-h-[380px] flex flex-col justify-between
+            <div className={`rounded border overflow-hidden relative shadow-2xs min-h-[460px] flex flex-col justify-between
               ${theme === 'dark' ? 'bg-[#0e120d] border-[#252f23]' : 'bg-[#e9ece6] border-slate-250'}`}
             >
-              <div className="absolute top-2 left-2 z-10 flex gap-2">
-                <span className={`px-2 py-0.5 rounded text-[8.5px] font-mono font-bold uppercase tracking-wider
-                  ${theme === 'dark' ? 'bg-slate-900 text-slate-400' : 'bg-slate-200 text-slate-600'}`}
+              <div className="absolute top-2.5 left-2.5 z-10 flex gap-2">
+                <span className={`px-2.5 py-1 rounded text-[10.5px] font-mono font-bold uppercase tracking-wider border shadow-xs
+                  ${theme === 'dark' 
+                    ? 'bg-[#151c14] border-emerald-900/30 text-emerald-400' 
+                    : 'bg-emerald-50 border-emerald-250 text-emerald-700'}`}
                 >
                   Trace Viewport Map
                 </span>
                 {status === 'running' && (
-                  <span className="bg-emerald-500/10 text-emerald-700 px-2 py-0.5 rounded text-[8.5px] font-mono font-bold animate-pulse">
+                  <span className={`px-2.5 py-1 rounded text-[10.5px] font-mono font-bold animate-pulse border
+                    ${theme === 'dark'
+                      ? 'bg-slate-900 border-slate-800 text-slate-400'
+                      : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-700'}`}
+                  >
                     Stage Process: {isSimulationMode ? 'SANDBOX STAGING' : 'REAL ACTIVE AGENT'}
                   </span>
                 )}
