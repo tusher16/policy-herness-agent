@@ -1379,13 +1379,61 @@ export default function App() {
                 </div>
               </div>
 
+              {/* Dedicated Custom Prompt Input Section */}
+              <div className={`mt-1 pt-3 border-t flex flex-col gap-2
+                ${theme === 'dark' ? 'border-[#222c20]' : 'border-slate-100'}`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+                    Agent Instruction Input / Policy Prompt:
+                  </span>
+                  <button 
+                    onClick={openPromptModal}
+                    disabled={status === 'running'}
+                    className="text-[9px] font-mono text-emerald-600 hover:text-emerald-500 hover:underline cursor-pointer disabled:opacity-50"
+                  >
+                    [Expand Fullscreen Terminal Edit]
+                  </button>
+                </div>
+                
+                <div className={`relative flex items-center rounded border transition-all duration-200 shadow-2xs group p-1.5
+                  ${theme === 'dark' 
+                    ? 'bg-[#161d14]/75 border-[#2c3928] focus-within:border-emerald-500/50' 
+                    : 'bg-slate-50/75 border-slate-200 focus-within:border-emerald-500/50'}`}
+                >
+                  <input 
+                    type="text"
+                    value={topic}
+                    onChange={(e) => setTopic(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && topic.trim() && status !== 'running') {
+                        handleRunTrigger();
+                      }
+                    }}
+                    placeholder="Type custom immigration/employment policy query, or select a scenario vector above..."
+                    className={`flex-1 bg-transparent border-none text-xs px-2.5 py-2 font-mono focus:outline-none placeholder-slate-500/60
+                      ${theme === 'dark' ? 'text-slate-100' : 'text-slate-800'}`}
+                  />
+                  {topic.trim() && (
+                    <button
+                      onClick={() => setTopic('')}
+                      className="p-1 text-slate-500 hover:text-slate-350 rounded cursor-pointer mr-1"
+                      title="Clear query"
+                    >
+                      <XCircle className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
               {/* Simulation run actions */}
               <div className="flex items-center gap-2 justify-between border-t border-slate-100 pt-2.5 flex-wrap">
-                <div className="flex gap-1.5">
+                <div className="flex gap-1.5 flex-wrap w-full sm:w-auto">
                   <button
                     onClick={runSimulatedTrace}
                     disabled={status === 'running'}
-                    className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-900 disabled:opacity-50 text-white rounded text-xs font-semibold font-mono flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+                    className="px-4 py-2 bg-slate-800 hover:bg-slate-900 disabled:opacity-50 text-white rounded text-xs font-semibold font-mono flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer flex-1 sm:flex-none justify-center"
                   >
                     <Activity className="w-3.5 h-3.5 text-emerald-500" />
                     Simulate Scenario Tracing
@@ -1394,7 +1442,7 @@ export default function App() {
                   <button
                     onClick={handleRunTrigger}
                     disabled={status === 'running'}
-                    className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-750 text-white rounded text-xs font-semibold font-mono flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-750 text-white rounded text-xs font-semibold font-mono flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer flex-1 sm:flex-none justify-center"
                   >
                     <Play className="w-3 h-3 fill-current" />
                     Run Live AI Check
@@ -1402,7 +1450,7 @@ export default function App() {
 
                   <button
                     onClick={resetAllHarness}
-                    className={`px-3 py-1.5 rounded text-xs font-semibold font-mono flex items-center gap-1.5 transition-all cursor-pointer
+                    className={`px-4 py-2 rounded text-xs font-semibold font-mono flex items-center gap-1.5 transition-all cursor-pointer flex-1 sm:flex-none justify-center
                       ${theme === 'dark' ? 'bg-[#212a1d] border border-[#2a3824] text-slate-300 hover:bg-[#2e3b2a]' : 'bg-white border border-slate-200 hover:bg-slate-50 text-slate-650'}`}
                   >
                     <RotateCcw className="w-3 h-3" />
@@ -1410,23 +1458,8 @@ export default function App() {
                   </button>
                 </div>
 
-                <div className={`flex-1 max-w-sm flex items-center gap-1 rounded p-1 border
-                  ${theme === 'dark' ? 'bg-[#161d14] border-slate-800' : 'bg-slate-100 border-slate-200'}`}
-                >
-                  <input 
-                    type="text"
-                    value={topic}
-                    onChange={(e) => setTopic(e.target.value)}
-                    onClick={openPromptModal}
-                    placeholder="or execute custom brief query..."
-                    className="flex-1 bg-transparent border-none text-[11px] px-2 py-1 font-mono focus:outline-none"
-                  />
-                  <button
-                    onClick={handleRunTrigger}
-                    className="p-1 px-2.5 bg-slate-800 text-emerald-400 rounded text-xs font-mono font-bold flex items-center tracking-widest cursor-pointer hover:bg-black"
-                  >
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                <div className="text-[9.5px] font-mono text-slate-500 italic hidden md:block">
+                  * Live AI Check queries Tavily/Exa APIs
                 </div>
               </div>
             </div>
@@ -1764,12 +1797,12 @@ export default function App() {
           {/* Tabs links toolbar */}
           <div className="flex border-b overflow-x-auto px-4 gap-1 select-none border-dashed border-slate-650/35">
             {[
-              { id: "output", label: "Compiled Output" },
-              { id: "harness_trace", label: "Diagnostics & Trace" },
-              { id: "tools_log", label: "Crawler Stream Tool" },
-              { id: "governance", label: "Governance Audit" },
-              { id: "memory", label: "Vascular Memory" },
-              { id: "settings", label: "Model Settings" },
+              { id: "output", label: "OUTPUT" },
+              { id: "harness_trace", label: "HARNESS / TRACE" },
+              { id: "tools_log", label: "TOOL CALLS" },
+              { id: "governance", label: "GOVERNANCE" },
+              { id: "memory", label: "MEMORY" },
+              { id: "settings", label: "SETTINGS" },
             ].map(t => (
               <button 
                 key={t.id} 
@@ -1794,11 +1827,11 @@ export default function App() {
           {/* Expanded bottom tabs contents area */}
           <div 
             ref={outputScrollRef}
-            className={`p-4 max-h-[220px] overflow-y-auto select-text
+            className={`p-4 select-text
               ${theme === 'dark' ? 'bg-[#0a0e09]' : 'bg-slate-50/40'}`}
           >
             {activeTab === "output" && (
-              <div>
+              <div className="flex flex-col gap-4">
                 {error && (
                   <div className="p-3 mb-2 rounded bg-rose-500/10 border border-rose-500/20 text-rose-500 text-xs font-mono leading-normal">
                     ✗ Operational Exception: {error}
@@ -1806,61 +1839,152 @@ export default function App() {
                 )}
                 
                 {output ? (
-                  <div className="flex flex-col gap-3">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-slate-400">Brief status:</span>
-                      <span className={`px-2 py-0.5 rounded text-[8px] font-mono font-bold uppercase
-                        ${output.impact_level === 'high' ? 'bg-rose-500/10 text-rose-500' : 'bg-emerald-500/10 text-emerald-500'}`}
-                      >
-                        {output.impact_level || 'standard'} impact
-                      </span>
-                      <span className="text-[10px] font-mono text-slate-400 ml-auto select-none">
-                        Audit Confidence Score: {output.confidence ? (output.confidence * 100).toFixed(0) + "%" : "95%"}
+                  <div className="flex flex-col gap-4">
+                    {/* Header Row */}
+                    <div className="flex items-center justify-between border-b border-slate-700/25 pb-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-xs font-bold text-emerald-500 uppercase tracking-widest">PolicyPulse Alert</span>
+                        <span className={`px-2 py-0.5 rounded text-[8px] font-mono font-bold uppercase border
+                          ${output.impact_level === 'high' 
+                            ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' 
+                            : 'bg-amber-500/10 text-amber-450 border-amber-500/20'}`}
+                        >
+                          {output.impact_level || 'medium'} impact
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono text-slate-450 select-none">
+                        confidence: {output.confidence ? (output.confidence * 100).toFixed(0) + "%" : "95%"}
                       </span>
                     </div>
 
+                    {/* What Changed since last run */}
                     {output.changes && output.changes.length > 0 && (
-                      <div className="p-2.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-300 font-mono text-[10.5px] leading-relaxed">
-                        <span className="font-bold text-amber-500 mr-1">🔺 Policy Differentials Tracked:</span>
-                        {output.changes.map((c: string, idx: number) => <span key={idx}>{c}</span>)}
+                      <div className={`p-3 rounded border text-xs font-mono leading-relaxed
+                        ${theme === 'dark' 
+                          ? 'bg-amber-950/5 border-amber-500/20 text-amber-300' 
+                          : 'bg-amber-50/20 border-amber-500/20 text-amber-805'}`}
+                      >
+                        <span className="font-bold text-amber-500 uppercase block mb-1 text-[9px] tracking-wide">▲ WHAT CHANGED SINCE LAST RUN</span>
+                        <ul className="list-disc list-inside space-y-0.5 pl-1">
+                          {output.changes.map((c: string, idx: number) => (
+                            <li key={idx} className="text-[11px]">{c}</li>
+                          ))}
+                        </ul>
                       </div>
                     )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                      <div className={`p-2.5 rounded border
-                        ${theme === 'dark' ? 'bg-[#151c14] border-slate-800' : 'bg-white border-slate-200'}`}>
-                        <span className="text-[9.5px] font-mono text-slate-450 uppercase tracking-wider block mb-1">State guidelines summary:</span>
-                        <div className="font-mono text-slate-300 leading-relaxed text-[11px]">{output.current_status}</div>
-                      </div>
-                      
-                      <div className={`p-2.5 rounded border
-                        ${theme === 'dark' ? 'bg-[#151c14] border-slate-800' : 'bg-white border-slate-200'}`}>
-                        <span className="text-[9.5px] font-mono text-slate-450 uppercase tracking-wider block mb-1">Why it matters:</span>
-                        <div className="font-mono text-slate-400 leading-relaxed text-[11px]">{output.why_it_matters || output.details}</div>
+                    {/* Current Status */}
+                    <div className={`p-3.5 rounded border shadow-2xs
+                      ${theme === 'dark' ? 'bg-[#151c14] border-slate-800/80' : 'bg-white border-slate-200'}`}
+                    >
+                      <span className="text-[9.5px] font-mono text-slate-450 uppercase tracking-wider block mb-1.5 font-bold">CURRENT STATUS</span>
+                      <div className="font-mono text-slate-300 leading-relaxed text-[11.5px]">
+                        {output.current_status}
                       </div>
                     </div>
 
+                    {/* Why It Matters & Who Is Affected Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className={`p-3.5 rounded border shadow-2xs
+                        ${theme === 'dark' ? 'bg-[#151c14] border-slate-800/80' : 'bg-white border-slate-200'}`}>
+                        <span className="text-[9.5px] font-mono text-slate-455 uppercase tracking-wider block mb-1.5 font-bold">WHY IT MATTERS</span>
+                        <div className="font-mono text-slate-400 leading-relaxed text-[11px]">
+                          {output.why_it_matters || output.details}
+                        </div>
+                      </div>
+                      
+                      <div className={`p-3.5 rounded border shadow-2xs
+                        ${theme === 'dark' ? 'bg-[#151c14] border-slate-800/80' : 'bg-white border-slate-200'}`}>
+                        <span className="text-[9.5px] font-mono text-slate-455 uppercase tracking-wider block mb-1.5 font-bold">WHO IS AFFECTED</span>
+                        <div className="font-mono text-slate-400 leading-relaxed text-[11px]">
+                          {output.who_is_affected || "Identified eligible visa candidates and business sponsors."}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Key Metrics / Data Cards Row */}
+                    {output.key_numbers && output.key_numbers.length > 0 && (
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        {output.key_numbers.map((kn: any, idx: number) => (
+                          <div 
+                            key={idx}
+                            className={`p-3 rounded border flex flex-col items-center justify-center text-center transition-all duration-200 hover:scale-[1.01] shadow-2xs
+                              ${theme === 'dark' 
+                                ? 'bg-emerald-500/5 border-emerald-500/25 text-emerald-400' 
+                                : 'bg-emerald-50/30 border-emerald-500/20 text-emerald-700'}`}
+                          >
+                            <span className="font-mono text-[16px] font-bold tracking-tight block mb-1">
+                              {kn.value}
+                            </span>
+                            <span className={`font-mono text-[8.5px] uppercase tracking-wider
+                              ${theme === 'dark' ? 'text-slate-450' : 'text-slate-500'}`}
+                            >
+                              {kn.label}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Recommended Action */}
+                    {output.recommended_action && (
+                      <div className={`p-3.5 rounded border shadow-2xs text-xs font-mono leading-relaxed
+                        ${theme === 'dark' 
+                          ? 'bg-amber-500/5 border-amber-500/20 text-amber-300' 
+                          : 'bg-amber-50/20 border-amber-500/25 text-amber-805'}`}
+                      >
+                        <span className="font-bold text-amber-500 uppercase block mb-1.5 text-[9px] tracking-wide">RECOMMENDED ACTION</span>
+                        <div className="text-[11.5px] leading-relaxed">
+                          {output.recommended_action}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Citations List */}
                     {output.citations && output.citations.length > 0 && (
-                      <div className="mt-2">
-                        <span className="text-[9.5px] font-mono text-slate-450 uppercase tracking-widest block mb-1.5">Official domain index citations:</span>
-                        <div className="flex flex-col gap-1">
+                      <div className="mt-1">
+                        <span className="text-[9.5px] font-mono text-slate-455 uppercase tracking-widest block mb-2 font-bold">CITATIONS</span>
+                        <div className="flex flex-col gap-2">
                           {output.citations.map((c: any, i: number) => (
-                            <div key={i} className="flex items-center gap-1.5 font-mono text-[10px]">
-                              <span className="text-emerald-500">[{i + 1}]</span>
-                              <span className="text-slate-300 select-all truncate max-w-[200px]">{c.source_title || c.text}</span>
-                              <span className="text-slate-455">-</span>
+                            <div 
+                              key={i} 
+                              className={`p-3 rounded border font-mono text-xs flex flex-col gap-1 shadow-3xs
+                                ${theme === 'dark' 
+                                  ? 'bg-[#121810]/40 border-slate-800/80 hover:border-slate-700' 
+                                  : 'bg-white border-slate-200/80 hover:border-slate-350'}`}
+                            >
+                              <div className="flex items-start gap-1.5">
+                                <span className="text-emerald-500 font-bold select-none text-[11px]">[{i + 1}]</span>
+                                <span className={`text-[11px] leading-relaxed
+                                  ${theme === 'dark' ? 'text-slate-300' : 'text-slate-850'}`}
+                                >
+                                  {c.text || c.source_title}
+                                </span>
+                              </div>
                               {isHttpUrl(c.url) ? (
-                                <a href={c.url} target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline select-all truncate">
-                                  {c.url}
+                                <a 
+                                  href={c.url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer" 
+                                  className="text-[10px] text-emerald-600 hover:underline select-all truncate pl-4 mt-0.5 animate-pulse-slow"
+                                >
+                                  {c.source_title || c.url}
                                 </a>
                               ) : (
-                                <span className="text-slate-455 italic">Internal repository</span>
+                                <span className="text-[9.5px] text-slate-550 italic pl-4 mt-0.5">Internal registry source</span>
                               )}
                             </div>
                           ))}
                         </div>
                       </div>
                     )}
+
+                    {/* Footer Disclaimer */}
+                    <div className="mt-2 text-center select-none border-t border-slate-700/10 pt-2.5">
+                      <span className="text-[9px] font-mono text-slate-500 italic leading-normal block">
+                        {output.disclaimer || "a informational summary only, not legal advice. Always verify with official sources before taking action."}
+                      </span>
+                    </div>
                   </div>
                 ) : (
                   <div className="text-center py-6 font-mono text-xs text-slate-450">

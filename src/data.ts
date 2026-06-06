@@ -156,16 +156,129 @@ The PolicyPulse security harness has successfully quarantined this request:
       description: 'Minimum salary threshold restructured for tech roles, raising the standard minimum baseline with strict transitioning rules.',
       details: 'Confidence Assessment: Risen from 0.42 to 0.97 after automatic feedback loop re-query of gov.uk APIs.',
       markdownBody: `### UK Skilled Worker Minimum Salary Restructure
-
+ 
 **Home Office Statement: HOS-SW-2026**
-
+ 
 After triggering a re-check of formal immigration databases, PolicyPulse verified the following outcomes:
 * **New Base Threshold:** Minimum salary increased to **£38,700** (prev. £26,200) for general Skilled Worker entrants, with custom transitional provisions.
 * **Tech Code Allowances:** Specific allowance under SOC codes (e.g., Software Engineers) maintains a transitional discount if filed under approved national graduate agreements.
 * **Feedback Stage Action:** The system triggered an automatic retry after capturing conflicting blog figures (which claimed £37,500), correcting to official UK Parliament legislation sheets.
 * **Confidence Rating:** High (0.97 matched) after secondary verification.
-
+ 
 *Disclaimer: Real-time verification is performed in sandbox staging. For certified legal cases, refer directly to official gov.uk portals.*`,
     },
   },
+  {
+    id: 'ca-express-entry',
+    label: 'Canada Express Entry Tech Draw Shift',
+    icon: 'BritishPound',
+    prompt: 'Analyze the latest CRS score changes and tech occupation selections in Canada Category-Based Express Entry draws.',
+    category: 'Immigration Policy',
+    behaviorType: 'standard',
+    summary: 'A run evaluating IRCC category-based selection draws targeting STEM occupations and CRS cutoff score drops.',
+    inputGuardrailResults: {
+      approvedTopics: true,
+      promptInjectionSafe: true,
+      lengthChecks: true,
+    },
+    observeResults: {
+      sources: [
+        { title: 'IRCC Gazette Express Entry Draw Archives (2026)', url: 'https://canada.ca/ircc/express-entry-draws-2026', relevance: 98 },
+        { title: 'Canada Immigration Act STEM Category Details', url: 'https://canada.ca/ircc/category-based-selection-stem', relevance: 95 },
+        { title: 'CIC News CRS Score Analysis Memo', url: 'https://cicnews.com/policy/express-entry-crs-cutoff-drops', relevance: 85 },
+      ],
+      progressSearch: 100,
+      progressPage: 95,
+      progressParse: 100,
+    },
+    reasonResults: {
+      diffProgress: 90,
+      sourceRanking: 80,
+      confidence: 0.96,
+    },
+    actResults: {
+      summarizeProgress: 95,
+      notifierProgress: 90,
+      tokensUsed: 2250,
+      costUsd: 0.000045,
+    },
+    outputGuardrailResults: {
+      disclaimerCheck: true,
+      confidenceScoreCheck: true,
+      citationCheck: true,
+    },
+    finalAlert: {
+      title: 'CANADA EXPRESS ENTRY CRS CUTOFF DROP',
+      description: 'IRCC prioritizes STEM category candidates, dropping the CRS cutoff score to 480 points for tech occupations.',
+      details: 'Confidence Assessment: High (0.96) based on 3 crawled IRCC portals.',
+      markdownBody: `### Canada Express Entry STEM Category Draw
+      
+**IRCC Ministerial Instructions Reference: MI-EE-2026**
+
+Canada Immigration (IRCC) has updated its selection parameters for STEM profiles:
+* **CRS Cutoff Drop:** Score threshold decreased to **480 points** for category-based STEM draws, compared to 525 for general draws.
+* **Eligible NOC Codes:** Extended to include Data Scientists, Software Developers, and Cybersecurity Engineers.
+* **Target Intake:** STEM intake targets increased by 15% for the Q3-Q4 period.
+* **Primary Authority:** IRCC Official Ministerial Directives (98% matched).
+
+*Disclaimer: Real-time verification is performed in sandbox staging. For certified legal cases, refer directly to official IRCC portals.*`,
+    },
+  },
+  {
+    id: 'eu-blue-card-germany',
+    label: 'Germany EU Blue Card Salary Ease',
+    icon: 'GraduationCap',
+    prompt: 'Check the new lower salary thresholds and fast-track rules for the EU Blue Card in Germany for shortage occupations.',
+    category: 'Employment Policy',
+    behaviorType: 'standard',
+    summary: 'A standard run verifying Germany\'s lowered salary baselines and accelerated residency pathways for skilled tech professionals.',
+    inputGuardrailResults: {
+      approvedTopics: true,
+      promptInjectionSafe: true,
+      lengthChecks: true,
+    },
+    observeResults: {
+      sources: [
+        { title: 'German Federal Law Gazette (Bundesgesetzblatt 2026)', url: 'https://bgbl.de/immigration/eu-bluecard-amendments', relevance: 100 },
+        { title: 'Make it in Germany Portal - Blue Card Rules', url: 'https://make-it-in-germany.com/visa/skilled-workers/bluecard', relevance: 96 },
+        { title: 'Federal Employment Agency Shortage Occupations Sheet', url: 'https://arbeitsagentur.de/fachkraefteeinwanderung/shortage-occupations-2026', relevance: 90 },
+      ],
+      progressSearch: 100,
+      progressPage: 90,
+      progressParse: 100,
+    },
+    reasonResults: {
+      diffProgress: 95,
+      sourceRanking: 85,
+      confidence: 0.98,
+    },
+    actResults: {
+      summarizeProgress: 100,
+      notifierProgress: 95,
+      tokensUsed: 2380,
+      costUsd: 0.000048,
+    },
+    outputGuardrailResults: {
+      disclaimerCheck: true,
+      confidenceScoreCheck: true,
+      citationCheck: true,
+    },
+    finalAlert: {
+      title: 'GERMANY EU BLUE CARD AMENDMENTS',
+      description: 'Germany lowers minimum annual salary threshold to €39,682 for tech shortage occupations and shortens permanent residency track.',
+      details: 'Confidence Assessment: High (0.98) based on Federal Employment Agency publications.',
+      markdownBody: `### German EU Blue Card Threshold Decreases
+
+**Federal Office for Migration (BAMF) Bulletin: BAMF-BC-2026**
+
+The German federal government has implemented new regulations to attract skilled IT professionals:
+* **Lowered Salary Minimum:** Reduced to **€39,682** per annum (previously €43,800) for shortage occupations (MINT/STEM) and IT professionals.
+* **Fast-Track Residency:** Reduced eligibility for permanent residency to **21 months** (with B1 German language certificate) or 27 months (with A1 certificate).
+* **Degree Waiver:** Tech professionals with 3 years of comparable professional experience can now qualify without a university degree.
+* **Audited Authorities:** BAMF (100% matched), Make it in Germany (96% matched).
+
+*Disclaimer: Real-time verification is performed in sandbox staging. For certified legal cases, refer directly to official BAMF portals.*`,
+    },
+  },
 ];
+
