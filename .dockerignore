@@ -1,0 +1,25 @@
+# Git and CI metadata
+.git/
+.github/
+
+# Frontend build artifacts (rebuilt inside the image)
+node_modules/
+dist/
+
+# Secrets — never include in a Docker image
+.env
+.env.local
+.env.*.local
+
+# Python bytecode
+*.pyc
+__pycache__/
+.venv/
+
+# Runtime state (must be on a mounted volume, not baked in)
+.policypulse-memory.json
+.policy-pulse-store.json
+backend/.policypulse-memory.json
+
+# macOS
+.DS_Store

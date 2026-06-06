@@ -1,0 +1,55 @@
+# ── PolicyPulse nginx frontend ───────────────────────────────────────────────
+# Serves the React SPA and proxies /api/* to policypulse-backend:8000.
+# Public traffic enters via Cloudflare Tunnel → this service (not via Traefik Ingress).
+# Add to your Cloudflare tunnel public hostnames:
+#   Subdomain: policy  Domain: tusher16.com
+#   Service:   http://policypulse-frontend.apps.svc.cluster.local:80
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: policypulse-frontend
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: policypulse-frontend
+  template:
+    metadata:
+      labels:
+        app: policypulse-frontend
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: elitedesk-node1
+      containers:
+      - name: frontend
+        image: ghcr.io/tusher16/policy-herness-agent:frontend
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "32Mi"
+          limits:
+            cpu: "100m"
+            memory: "64Mi"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 30
+---
+# The Cloudflare Tunnel cloudflared pod reaches this service by cluster DNS.
+apiVersion: v1
+kind: Service
+metadata:
+  name: policypulse-frontend
+  namespace: apps
+spec:
+  selector:
+    app: policypulse-frontend
+  ports:
+  - port: 80
+    targetPort: 80

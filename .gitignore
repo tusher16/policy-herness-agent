@@ -1,0 +1,25 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+.policy-pulse-store.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.policypulse-memory.json
+backend/.policypulse-memory.json
+
+# Kubernetes secret manifest — real values must only be applied via kubectl CLI, never committed
+k8s/secret.yaml
+
+# Private / session-specific docs — keep in homelab-private repo, not public
+2026-ai-agent-harness-explained.md
+MEMORY.md
+CODE-REVIEW.md
+.claude/
+
+# macOS
+.DS_Store

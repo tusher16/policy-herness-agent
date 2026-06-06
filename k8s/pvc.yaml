@@ -1,0 +1,15 @@
+# Persistent storage for memory + session-state JSON files (backend only).
+# k3s ships with the "local-path" storage class by default.
+# ADR note: local-path = hostPath under the hood. If elitedesk-node1's SSD fails,
+# this data is gone. The JSON files are lightweight so the risk is acceptable.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: policypulse-data
+  namespace: apps
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 500Mi

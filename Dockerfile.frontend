@@ -1,0 +1,19 @@
+# Frontend — React/Vite SPA served by nginx.
+# Build:  docker build -f Dockerfile.frontend -t policypulse-frontend .
+# Run:    docker run -p 80:80 policypulse-frontend
+
+# --- stage 1: build ---
+FROM node:20-slim AS build
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+# API base is baked into the JS bundle at build time.
+ARG VITE_POLICY_PULSE_API_BASE=/api
+RUN npm run build
+
+# --- stage 2: serve ---
+FROM nginx:1.27-alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80

@@ -1,0 +1,104 @@
+# ── PolicyPulse Python backend ──────────────────────────────────────────────
+# Namespace: apps (your existing stateless apps namespace)
+# Node: elitedesk-node1 (K3s master — verify: kubectl get nodes)
+# Image: built and pushed by GitHub Actions CI/CD to ghcr.io
+# Access: cluster-internal only. nginx in the frontend pod proxies /api/ here.
+# Public traffic: Cloudflare Tunnel → policypulse-frontend service (not this one directly).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: policypulse-backend
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: policypulse-backend
+  template:
+    metadata:
+      labels:
+        app: policypulse-backend
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: elitedesk-node1
+      containers:
+      - name: backend
+        image: ghcr.io/tusher16/policy-herness-agent:backend
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        env:
+        - name: POLICYPULSE_HOST
+          value: "0.0.0.0"
+        - name: POLICYPULSE_PORT
+          value: "8000"
+        - name: POLICYPULSE_MEMORY_PATH
+          value: /data/.policypulse-memory.json
+        - name: POLICYPULSE_SESSION_STORE_PATH
+          value: /data/.policy-pulse-store.json
+        # Match your Cloudflare Tunnel public hostname for this app.
+        - name: POLICYPULSE_ALLOWED_ORIGINS
+          value: "https://policy.tusher16.com"
+        - name: POLICYPULSE_RATE_LIMIT_PER_MINUTE
+          value: "30"
+        - name: OPENROUTER_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: policypulse-secrets
+              key: OPENROUTER_API_KEY
+        - name: TAVILY_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: policypulse-secrets
+              key: TAVILY_API_KEY
+        - name: EXA_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: policypulse-secrets
+              key: EXA_API_KEY
+        - name: POLICYPULSE_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: policypulse-secrets
+              key: POLICYPULSE_AUTH_TOKEN
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: policypulse-data
+---
+# Cluster-internal service only — not exposed via Ingress.
+# nginx in the frontend pod reaches it at http://policypulse-backend:8000
+apiVersion: v1
+kind: Service
+metadata:
+  name: policypulse-backend
+  namespace: apps
+spec:
+  selector:
+    app: policypulse-backend
+  ports:
+  - port: 8000
+    targetPort: 8000

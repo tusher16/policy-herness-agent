@@ -1,0 +1,17 @@
+# PolicyPulse uses the existing "apps" namespace — no new namespace needed.
+# Your cluster already has: kubectl create namespace apps (labelled purpose=stateless)
+#
+# To apply resource limits for PolicyPulse within apps, run this once on Node-1:
+#   kubectl apply -f k8s/namespace.yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: policypulse-quota
+  namespace: apps
+spec:
+  hard:
+    requests.cpu: "400m"
+    requests.memory: "544Mi"
+    limits.cpu: "600m"
+    limits.memory: "576Mi"
+    pods: "4"

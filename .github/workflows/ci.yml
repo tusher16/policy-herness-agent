@@ -1,0 +1,95 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  IMAGE_PREFIX: ghcr.io/tusher16/policy-herness-agent
+
+jobs:
+  # ── 1. Test ────────────────────────────────────────────────────────────────
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: npm ci
+      - run: npm run build   # verifies the React build succeeds
+      - run: npm test        # runs Python regression tests
+
+  # ── 2. Build & push Docker images ─────────────────────────────────────────
+  build-and-push:
+    name: Build & push
+    needs: test
+    # Only push images on main branch pushes, not on PRs.
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write   # required to push to ghcr.io
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            ${{ env.IMAGE_PREFIX }}:backend
+            ${{ env.IMAGE_PREFIX }}:backend-${{ github.sha }}
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.frontend
+          push: true
+          tags: |
+            ${{ env.IMAGE_PREFIX }}:frontend
+            ${{ env.IMAGE_PREFIX }}:frontend-${{ github.sha }}
+
+  # ── 3. Deploy to k3s via SSH ───────────────────────────────────────────────
+  deploy:
+    name: Deploy to k3s
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      # SSH into elitedesk-node1 via ssh.tusher16.com (grey-cloud DNS, not tunnelled).
+      # imagePullPolicy: Always + :backend/:frontend tags means a rollout restart
+      # pulls the new image that was just pushed to ghcr.io.
+      - name: Rollout restart on elitedesk-node1
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}      # ssh.tusher16.com
+          username: tusher16
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}         # 2024
+          script: |
+            kubectl rollout restart deployment/policypulse-backend  -n apps
+            kubectl rollout restart deployment/policypulse-frontend -n apps
+            kubectl rollout status  deployment/policypulse-backend  -n apps --timeout=120s
+            kubectl rollout status  deployment/policypulse-frontend -n apps --timeout=120s
