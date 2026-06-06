@@ -1302,34 +1302,80 @@ export default function App() {
             <div className={`p-3.5 rounded border flex flex-col gap-3 shadow-2xs
               ${theme === 'dark' ? 'bg-[#0f140e] border-[#252f23]' : 'bg-white border-slate-200'}`}
             >
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex flex-col gap-1.5 w-full">
-                  <span className="font-mono text-[10.5px] font-bold text-emerald-600 uppercase tracking-tight">
-                    Select Scenario Vector:
+              {/* Custom Prompt Input — shown first so users see it immediately */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+                    Agent Instruction Input / Policy Prompt:
                   </span>
-                  
-                  <div className="flex gap-1.5 flex-wrap">
-                    {PRESET_SCENARIOS.map((sc) => {
-                      const isActive = activeScenario.id === sc.id;
-                      return (
-                        <button
-                          key={sc.id}
-                          onClick={() => selectPresetScenario(sc)}
-                          className={`px-3 py-1.5 text-[11px] font-mono rounded tracking-tight transition-all duration-200 flex items-center gap-1.5 border cursor-pointer
-                            ${isActive 
-                              ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/60 font-semibold shadow-2xs' 
-                              : theme === 'dark' 
-                              ? 'bg-[#151c14] border-[#252f23] text-slate-400 hover:bg-[#20291c] hover:text-slate-200' 
-                              : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
-                        >
-                          {sc.icon === 'GraduationCap' && <GraduationCap className="w-3.5 h-3.5 text-emerald-500" />}
-                          {sc.icon === 'ShieldAlert' && <ShieldAlert className="w-3.5 h-3.5 text-rose-500" />}
-                          {sc.icon === 'BritishPound' && <Coins className="w-3.5 h-3.5 text-amber-500" />}
-                          {sc.label}
-                        </button>
-                      );
-                    })}
-                  </div>
+                  <button
+                    onClick={openPromptModal}
+                    disabled={status === 'running'}
+                    className="text-[9px] font-mono text-emerald-600 hover:text-emerald-500 hover:underline cursor-pointer disabled:opacity-50"
+                  >
+                    [Expand Fullscreen Terminal Edit]
+                  </button>
+                </div>
+
+                <div className={`relative flex items-center rounded border transition-all duration-200 shadow-2xs group p-1.5
+                  ${theme === 'dark'
+                    ? 'bg-[#161d14]/75 border-[#2c3928] focus-within:border-emerald-500/50'
+                    : 'bg-slate-50/75 border-slate-200 focus-within:border-emerald-500/50'}`}
+                >
+                  <input
+                    type="text"
+                    value={topic}
+                    onChange={(e) => setTopic(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && topic.trim() && status !== 'running') {
+                        handleRunTrigger();
+                      }
+                    }}
+                    placeholder="Type custom immigration/employment policy query, or pick a preset below..."
+                    className={`flex-1 bg-transparent border-none text-xs px-2.5 py-2 font-mono focus:outline-none placeholder-slate-500/60
+                      ${theme === 'dark' ? 'text-slate-100' : 'text-slate-800'}`}
+                  />
+                  {topic.trim() && (
+                    <button
+                      onClick={() => setTopic('')}
+                      className="p-1 text-slate-500 hover:text-slate-350 rounded cursor-pointer mr-1"
+                      title="Clear query"
+                    >
+                      <XCircle className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Preset scenario chips — below the prompt input */}
+              <div className={`pt-3 border-t flex flex-col gap-1.5
+                ${theme === 'dark' ? 'border-[#222c20]' : 'border-slate-100'}`}
+              >
+                <span className="font-mono text-[10.5px] font-bold text-emerald-600 uppercase tracking-tight">
+                  Select Scenario Vector:
+                </span>
+                <div className="flex gap-1.5 flex-wrap">
+                  {PRESET_SCENARIOS.map((sc) => {
+                    const isActive = activeScenario.id === sc.id;
+                    return (
+                      <button
+                        key={sc.id}
+                        onClick={() => selectPresetScenario(sc)}
+                        className={`px-3 py-1.5 text-[11px] font-mono rounded tracking-tight transition-all duration-200 flex items-center gap-1.5 border cursor-pointer
+                          ${isActive
+                            ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/60 font-semibold shadow-2xs'
+                            : theme === 'dark'
+                            ? 'bg-[#151c14] border-[#252f23] text-slate-400 hover:bg-[#20291c] hover:text-slate-200'
+                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                      >
+                        {sc.icon === 'GraduationCap' && <GraduationCap className="w-3.5 h-3.5 text-emerald-500" />}
+                        {sc.icon === 'ShieldAlert' && <ShieldAlert className="w-3.5 h-3.5 text-rose-500" />}
+                        {sc.icon === 'BritishPound' && <Coins className="w-3.5 h-3.5 text-amber-500" />}
+                        {sc.label}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -1379,64 +1425,23 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Dedicated Custom Prompt Input Section */}
-              <div className={`mt-1 pt-3 border-t flex flex-col gap-2
-                ${theme === 'dark' ? 'border-[#222c20]' : 'border-slate-100'}`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
-                    Agent Instruction Input / Policy Prompt:
-                  </span>
-                  <button 
-                    onClick={openPromptModal}
-                    disabled={status === 'running'}
-                    className="text-[9px] font-mono text-emerald-600 hover:text-emerald-500 hover:underline cursor-pointer disabled:opacity-50"
-                  >
-                    [Expand Fullscreen Terminal Edit]
-                  </button>
-                </div>
-                
-                <div className={`relative flex items-center rounded border transition-all duration-200 shadow-2xs group p-1.5
-                  ${theme === 'dark' 
-                    ? 'bg-[#161d14]/75 border-[#2c3928] focus-within:border-emerald-500/50' 
-                    : 'bg-slate-50/75 border-slate-200 focus-within:border-emerald-500/50'}`}
-                >
-                  <input 
-                    type="text"
-                    value={topic}
-                    onChange={(e) => setTopic(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && topic.trim() && status !== 'running') {
-                        handleRunTrigger();
-                      }
-                    }}
-                    placeholder="Type custom immigration/employment policy query, or select a scenario vector above..."
-                    className={`flex-1 bg-transparent border-none text-xs px-2.5 py-2 font-mono focus:outline-none placeholder-slate-500/60
-                      ${theme === 'dark' ? 'text-slate-100' : 'text-slate-800'}`}
-                  />
-                  {topic.trim() && (
-                    <button
-                      onClick={() => setTopic('')}
-                      className="p-1 text-slate-500 hover:text-slate-350 rounded cursor-pointer mr-1"
-                      title="Clear query"
-                    >
-                      <XCircle className="w-3.5 h-3.5" />
-                    </button>
-                  )}
-                </div>
-              </div>
-
               {/* Simulation run actions */}
               <div className="flex items-center gap-2 justify-between border-t border-slate-100 pt-2.5 flex-wrap">
                 <div className="flex gap-1.5 flex-wrap w-full sm:w-auto">
                   <button
                     onClick={runSimulatedTrace}
                     disabled={status === 'running'}
-                    className="px-4 py-2 bg-slate-800 hover:bg-slate-900 disabled:opacity-50 text-white rounded text-xs font-semibold font-mono flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer flex-1 sm:flex-none justify-center"
+                    className={`px-4 py-2 border disabled:opacity-50 rounded text-xs font-semibold font-mono flex items-center gap-1.5 transition-colors cursor-pointer flex-1 sm:flex-none justify-center
+                      ${theme === 'dark'
+                        ? 'border-[#2c3928] text-slate-400 hover:bg-[#1c2419] hover:text-slate-200'
+                        : 'border-slate-300 text-slate-600 hover:bg-slate-50'}`}
                   >
                     <Activity className="w-3.5 h-3.5 text-emerald-500" />
                     Simulate Scenario Tracing
+                    <span className={`text-[9px] font-mono px-1 py-0.5 rounded
+                      ${theme === 'dark' ? 'bg-slate-700 text-slate-400' : 'bg-slate-100 text-slate-500'}`}>
+                      offline
+                    </span>
                   </button>
 
                   <button
@@ -1459,7 +1464,7 @@ export default function App() {
                 </div>
 
                 <div className="text-[9.5px] font-mono text-slate-500 italic hidden md:block">
-                  * Live AI Check queries Tavily/Exa APIs
+                  * Live AI Check queries Tavily/Exa APIs &nbsp;·&nbsp; Simulate is offline only
                 </div>
               </div>
             </div>
