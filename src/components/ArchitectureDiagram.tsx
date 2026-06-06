@@ -107,39 +107,38 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           className={`group transition-all duration-300 transform`}
         >
           <rect 
-            x="32" 
-            y="186" 
-            width="100" 
-            height="72" 
+            x="24" 
+            y="180" 
+            width="110" 
+            height="86" 
             rx="7" 
             fill="#fff" 
             stroke={currentStep === 'IDLE' ? '#16a34a' : activeBlock === 'PROMPT' ? '#22c55e' : '#e2e6df'} 
             strokeWidth={currentStep === 'IDLE' ? '1.8' : '1'}
             className="transition-all duration-300"
           />
-          {/* Spacing resolved: bullet cx=43, text x=56 (diff is 13px) */}
-          <circle cx="43" cy="206" r="3.5" fill="#d1d5db" />
+          <circle cx="36" cy="202" r="4.5" fill="#d1d5db" />
           <text 
-            x="56" 
-            y="210" 
+            x="49" 
+            y="206" 
             fontFamily="'Space Mono', monospace" 
-            fontSize="9.5" 
+            fontSize="12.5" 
             fontWeight="700" 
             fill="#374151" 
             letterSpacing=".06em"
           >
             PROMPT
           </text>
-          <text x="43" y="228" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8.5" fill="#9ca3af">
+          <text x="36" y="226" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#9ca3af">
             human intent
           </text>
           <text 
-            x="43" 
-            y="244" 
+            x="36" 
+            y="246" 
             fontFamily="'IBM Plex Sans', sans-serif" 
-            fontSize="8" 
+            fontSize="10" 
             fill="#16a34a" 
-            fontWeight={activeScenario ? '500' : 'normal'}
+            fontWeight={activeScenario ? 'bold' : 'normal'}
             fontStyle="italic"
             className="transition-all duration-300 truncate"
           >
@@ -149,10 +148,10 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
 
         {/* Topic → Input Guard Connection */}
         <line 
-          x1="132" 
-          y1="222" 
-          x2="160" 
-          y2="222" 
+          x1="134" 
+          y1="228" 
+          x2="156" 
+          y2="228" 
           stroke={isInputGuardActive ? '#16a34a' : '#b0b8ac'} 
           strokeWidth={isInputGuardActive ? '1.5' : '.8'} 
           markerEnd={isInputGuardActive ? 'url(#ag)' : 'url(#a)'}
@@ -165,57 +164,55 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           className={getBlockClasses('INPUT GUARDRAIL', isInputGuardActive, 'stroke-orange-500')}
         >
           <rect 
-            x="162" 
-            y="158" 
-            width="124" 
-            height="140" 
+            x="158" 
+            y="150" 
+            width="134" 
+            height="156" 
             rx="7" 
             fill={isInputGuardActive ? 'url(#selectedGrad)' : '#fff'} 
             stroke={isInputGuardActive ? '#f97316' : activeBlock === 'INPUT GUARDRAIL' ? '#16a34a' : '#e2e6df'} 
             strokeWidth={isInputGuardActive ? '1.5' : '.8'}
           />
-          {/* Spacing resolved: bullet cx=178, text x=191 (diff is 13px) */}
-          <circle cx="178" cy="178" r="3.5" fill="#f97316"/>
-          <text x="191" y="182" fontFamily="'Space Mono', monospace" fontSize="9.5" fontWeight="700" fill="#374151" letterSpacing=".06em">INPUT</text>
-          <text x="191" y="198" fontFamily="'Space Mono', monospace" fontSize="9.5" fontWeight="700" fill="#374151" letterSpacing=".06em">GUARDRAIL</text>
-          <text x="178" y="216" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8.5" fill="#9ca3af">topic · injection check</text>
+          <circle cx="172" cy="172" r="4.5" fill="#f97316"/>
+          <text x="185" y="176" fontFamily="'Space Mono', monospace" fontSize="12" fontWeight="700" fill="#374151" letterSpacing=".06em">INPUT</text>
+          <text x="185" y="192" fontFamily="'Space Mono', monospace" fontSize="12" fontWeight="700" fill="#374151" letterSpacing=".06em">GUARDRAIL</text>
+          <text x="172" y="210" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#9ca3af">topic · injection check</text>
           
           <g>
-            <rect x="178" y="228" width="27" height="13" rx="2.5" fill="#f1f5f9"/>
-            <text x="191.5" y="238.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#475569" textAnchor="middle" letterSpacing=".04em">CPU</text>
+            <rect x="172" y="220" width="32" height="15" rx="2.5" fill="#f1f5f9"/>
+            <text x="188" y="231" fontFamily="'Space Mono', monospace" fontSize="9" fontWeight="700" fill="#475569" textAnchor="middle" letterSpacing=".04em">CPU</text>
             
-            <rect x="209" y="228" width="27" height="13" rx="2.5" fill={isInputGuardActive ? '#bbf7d0' : '#f0fdf4'}/>
-            <text x="222.5" y="238.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#15803d" textAnchor="middle" letterSpacing=".04em">DPU</text>
+            <rect x="210" y="220" width="32" height="15" rx="2.5" fill={isInputGuardActive ? '#bbf7d0' : '#f0fdf4'}/>
+            <text x="226" y="231" fontFamily="'Space Mono', monospace" fontSize="9" fontWeight="700" fill="#15803d" textAnchor="middle" letterSpacing=".04em">DPU</text>
           </g>
           
-          <line x1="178" y1="249" x2="266" y2="249" stroke="#f3f4f0" strokeWidth=".6"/>
+          <line x1="172" y1="242" x2="278" y2="242" stroke="#f3f4f0" strokeWidth=".6"/>
           
-          {/* Intelligent Guardrail status labels dynamically red/green depending on payload security! */}
           <text 
-            x="178" 
-            y="263" 
+            x="172" 
+            y="256" 
             fontFamily="'IBM Plex Sans', sans-serif" 
-            fontSize="8" 
+            fontSize="10" 
             fill={activeScenario?.behaviorType === 'injection' && currentStep !== 'IDLE' ? '#ef4444' : '#16a34a'}
             fontWeight={activeScenario?.behaviorType === 'injection' ? '500' : 'normal'}
           >
             {activeScenario?.behaviorType === 'injection' && currentStep !== 'IDLE' ? '✓ query loaded' : '✓ approved topics'}
           </text>
           <text 
-            x="178" 
-            y="277" 
+            x="172" 
+            y="272" 
             fontFamily="'IBM Plex Sans', sans-serif" 
-            fontSize="8" 
+            fontSize="10" 
             fill={activeScenario?.behaviorType === 'injection' && currentStep !== 'IDLE' ? '#ef4444' : '#16a34a'}
             fontWeight={activeScenario?.behaviorType === 'injection' ? '600' : 'normal'}
           >
             {activeScenario?.behaviorType === 'injection' && currentStep !== 'IDLE' ? '✗ injection attack!' : '✓ prompt injection'}
           </text>
           <text 
-            x="178" 
-            y="291" 
+            x="172" 
+            y="288" 
             fontFamily="'IBM Plex Sans', sans-serif" 
-            fontSize="8" 
+            fontSize="10" 
             fill="#16a34a"
           >
             ✓ length limits
@@ -223,12 +220,12 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
         </g>
 
         {/* Input Guard Approved → Harness Flow */}
-        <text x="301" y="213" fontFamily="'IBM Plex Sans', sans-serif" fontSize="9" fill={currentStep !== 'IDLE' && currentStep !== 'INPUT_GUARD' && currentStep !== 'REJECTED_STATE' ? '#16a34a' : '#a0a89c'} textAnchor="middle" letterSpacing=".02em">ok</text>
+        <text x="305" y="219" fontFamily="'IBM Plex Sans', sans-serif" fontSize="11" fill={currentStep !== 'IDLE' && currentStep !== 'INPUT_GUARD' && currentStep !== 'REJECTED_STATE' ? '#16a34a' : '#a0a89c'} textAnchor="middle" fontWeight="500" letterSpacing=".02em">ok</text>
         <line 
-          x1="286" 
-          y1="220" 
+          x1="292" 
+          y1="228" 
           x2="316" 
-          y2="220" 
+          y2="228" 
           stroke={currentStep !== 'IDLE' && currentStep !== 'INPUT_GUARD' && currentStep !== 'REJECTED_STATE' ? '#16a34a' : '#b0b8ac'} 
           strokeWidth={currentStep !== 'IDLE' && currentStep !== 'INPUT_GUARD' && currentStep !== 'REJECTED_STATE' ? '1.5' : '.8'} 
           markerEnd={currentStep !== 'IDLE' && currentStep !== 'INPUT_GUARD' && currentStep !== 'REJECTED_STATE' ? 'url(#ag)' : 'url(#a)'}
@@ -236,10 +233,10 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
 
         {/* Input Guard Blocked ↓ Reject Flow */}
         <text 
-          x="148" 
-          y="336" 
+          x="195" 
+          y="346" 
           fontFamily="'IBM Plex Sans', sans-serif" 
-          fontSize="8.5" 
+          fontSize="10.5" 
           fill={isRejectedActive ? '#ef4444' : '#a0a89c'} 
           textAnchor="middle"
           fontWeight={isRejectedActive ? '600' : 'normal'}
@@ -247,10 +244,10 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           blocked
         </text>
         <line 
-          x1="224" 
-          y1="298" 
-          x2="224" 
-          y2="380" 
+          x1="225" 
+          y1="306" 
+          x2="225" 
+          y2="378" 
           stroke={isRejectedActive ? '#ef4444' : '#b0b8ac'} 
           strokeWidth={isRejectedActive ? '1.5' : '.8'} 
           strokeDasharray="4 3" 
@@ -260,9 +257,9 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
         {/* ── HARNESS CONTAINER ──────────────────────────────── */}
         <rect 
           x="318" 
-          y="140" 
-          width="568" 
-          height="166" 
+          y="130" 
+          width="570" 
+          height="180" 
           rx="9" 
           fill="rgba(255,255,255,.38)" 
           stroke={isObserveActive || isReasonActive || isActActive || isFeedbackActive ? '#16a34a' : '#b8c0b4'} 
@@ -271,8 +268,8 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           className="transition-all duration-300"
         />
         {/* floating harness label */}
-        <rect x="334" y="132" width="252" height="16" fill="#eef1ec" />
-        <text x="342" y="144" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8.5" fill="#a0a89c" letterSpacing=".04em">agent harness  ·  observe → reason → act</text>
+        <rect x="334" y="122" width="280" height="16" fill="#eef1ec" />
+        <text x="342" y="134" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#a0a89c" fontWeight="600" letterSpacing=".04em">agent harness  ·  observe → reason → act</text>
 
         {/* ── OBSERVE BLOCK ────────────────────────────────────────────────── */}
         <g 
@@ -280,47 +277,45 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           className={getBlockClasses('OBSERVE', isObserveActive, 'stroke-emerald-500')}
         >
           <rect 
-            x="334" 
-            y="157" 
-            width="162" 
-            height="134" 
+            x="332" 
+            y="146" 
+            width="172" 
+            height="150" 
             rx="7" 
             fill={isObserveActive ? 'url(#observeGrad)' : '#fff'} 
             stroke={isObserveActive ? '#16a34a' : activeBlock === 'OBSERVE' ? '#16a34a' : '#e2e6df'} 
             strokeWidth={isObserveActive ? '1.5' : '.8'}
           />
-          {/* Active green left accent */}
-          <rect x="334" y="157" width="3" height="134" rx="1.5" fill="#16a34a"/>
-          {/* Spacing resolved: bullet cx=348, text x=361 (diff is 13px) */}
-          <circle cx="348" cy="178" r="3.5" fill="#16a34a" />
-          <text x="361" y="183" fontFamily="'Space Mono', monospace" fontSize="11" fontWeight="700" fill="#111" letterSpacing=".05em">OBSERVE</text>
-          <text x="348" y="201" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8.5" fill="#9ca3af">official source search</text>
+          <rect x="332" y="146" width="3" height="150" rx="1.5" fill="#16a34a"/>
+          <circle cx="348" cy="168" r="4.5" fill="#16a34a" />
+          <text x="361" y="173" fontFamily="'Space Mono', monospace" fontSize="13.5" fontWeight="700" fill="#111" letterSpacing=".05em">OBSERVE</text>
+          <text x="348" y="192" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#9ca3af">official source search</text>
           
-          <rect x="348" y="211" width="24" height="13" rx="2.5" fill="#dbeafe"/>
-          <text x="360" y="221.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#1d4ed8" textAnchor="middle" letterSpacing=".04em">LLM</text>
+          <rect x="348" y="202" width="28" height="14" rx="2.5" fill="#dbeafe"/>
+          <text x="362" y="212" fontFamily="'Space Mono', monospace" fontSize="9" fontWeight="700" fill="#1d4ed8" textAnchor="middle" letterSpacing=".04em">LLM</text>
           
           {/* Dynamic Observe status rows & progress meters */}
-          <text x="348" y="239" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#a0a89c">web_search</text>
-          <rect x="418" y="231" width="60" height="8" rx="2" fill="#f3f4f0"/>
-          <rect x="418" y="231" width={searchProgressW} height="8" rx="2" fill="#10b981" className="transition-all duration-500"/>
+          <text x="348" y="234" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">web_search</text>
+          <rect x="424" y="225" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="424" y="225" width={searchProgressW * 1.1} height="10" rx="2.5" fill="#10b981" className="transition-all duration-500"/>
           
-          <text x="348" y="255" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#a0a89c">page_fetcher</text>
-          <rect x="418" y="247" width="60" height="8" rx="2" fill="#f3f4f0"/>
-          <rect x="418" y="247" width={pageProgressW} height="8" rx="2" fill="#34d399" className="transition-all duration-500"/>
+          <text x="348" y="254" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">page_fetcher</text>
+          <rect x="424" y="245" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="424" y="245" width={pageProgressW * 1.1} height="10" rx="2.5" fill="#34d399" className="transition-all duration-500"/>
           
-          <text x="348" y="271" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#16a34a" fontWeight="500">
+          <text x="348" y="278" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#16a34a" fontWeight="600">
             {activeScenario ? `${activeScenario.observeResults.sources.length} sources found` : '6 sources found'}
           </text>
-          <rect x="418" y="263" width="60" height="8" rx="2" fill="#f3f4f0"/>
-          <rect x="418" y="263" width={parseProgressW} height="8" rx="2" fill="#047857" className="transition-all duration-500"/>
+          <rect x="424" y="270" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="424" y="270" width={parseProgressW * 1.1} height="10" rx="2.5" fill="#047857" className="transition-all duration-500"/>
         </g>
 
         {/* OBSERVE → REASON Flow Arrow */}
         <line 
-          x1="496" 
-          y1="222" 
-          x2="514" 
-          y2="222" 
+          x1="504" 
+          y1="221" 
+          x2="518" 
+          y2="221" 
           stroke={isObserveActive || isReasonActive ? '#16a34a' : '#b0b8ac'} 
           strokeWidth={isObserveActive || isReasonActive ? '1.5' : '.8'} 
           markerEnd={isObserveActive || isReasonActive ? 'url(#ag)' : 'url(#a)'}
@@ -332,41 +327,39 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           className={getBlockClasses('REASON', isReasonActive, 'stroke-emerald-500')}
         >
           <rect 
-            x="516" 
-            y="157" 
-            width="162" 
-            height="134" 
+            x="518" 
+            y="146" 
+            width="172" 
+            height="150" 
             rx="7" 
             fill={isReasonActive ? 'url(#observeGrad)' : '#fff'} 
             stroke={isReasonActive ? '#16a34a' : activeBlock === 'REASON' ? '#16a34a' : '#e2e6df'} 
             strokeWidth={isReasonActive ? '1.5' : '.8'}
           />
-          <rect x="516" y="157" width="3" height="134" rx="1.5" fill="#16a34a"/>
-          {/* Spacing resolved: bullet cx=530, text x=543 (diff is 13px) */}
-          <circle cx="530" cy="178" r="3.5" fill="#16a34a" />
-          <text x="543" y="183" fontFamily="'Space Mono', monospace" fontSize="11" fontWeight="700" fill="#111" letterSpacing=".05em">REASON</text>
-          <text x="530" y="201" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8.5" fill="#9ca3af">policy analysis</text>
+          <rect x="518" y="146" width="3" height="150" rx="1.5" fill="#16a34a"/>
+          <circle cx="534" cy="168" r="4.5" fill="#16a34a" />
+          <text x="547" y="173" fontFamily="'Space Mono', monospace" fontSize="13.5" fontWeight="700" fill="#111" letterSpacing=".05em">REASON</text>
+          <text x="534" y="192" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#9ca3af">policy analysis</text>
           
-          <rect x="530" y="211" width="24" height="13" rx="2.5" fill="#dbeafe"/>
-          <text x="542" y="221.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#1d4ed8" textAnchor="middle" letterSpacing=".04em">LLM</text>
+          <rect x="534" y="202" width="28" height="14" rx="2.5" fill="#dbeafe"/>
+          <text x="548" y="212" fontFamily="'Space Mono', monospace" fontSize="9" fontWeight="700" fill="#1d4ed8" textAnchor="middle" letterSpacing=".04em">LLM</text>
           
-          {/* Dynamically tracking Reason progress elements */}
-          <text x="530" y="239" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#a0a89c">diff_engine</text>
-          <rect x="600" y="231" width="60" height="8" rx="2" fill="#f3f4f0"/>
-          <rect x="600" y="231" width={diffProgressW} height="8" rx="2" fill="#10b981" className="transition-all duration-500"/>
+          <text x="534" y="234" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">diff_engine</text>
+          <rect x="610" y="225" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="610" y="225" width={diffProgressW * 1.1} height="10" rx="2.5" fill="#10b981" className="transition-all duration-500"/>
           
-          <text x="530" y="255" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#a0a89c">source ranking</text>
-          <rect x="600" y="247" width="60" height="8" rx="2" fill="#f3f4f0"/>
-          <rect x="600" y="247" width={rankProgressW} height="8" rx="2" fill="#34d399" className="transition-all duration-500"/>
+          <text x="534" y="254" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">source ranking</text>
+          <rect x="610" y="245" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="610" y="245" width={rankProgressW * 1.1} height="10" rx="2.5" fill="#34d399" className="transition-all duration-500"/>
           
-          <text x="530" y="271" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#16a34a" fontWeight="500">
-            confidence: {displayedConfidence}
+          <text x="534" y="278" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#16a34a" fontWeight="600">
+            conf: {displayedConfidence}
           </text>
-          <rect x="600" y="263" width="60" height="8" rx="2" fill="#f3f4f0"/>
+          <rect x="610" y="270" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
           <rect 
-            x="600" y="263" 
-            width={activeScenario?.behaviorType === 'low_confidence' && isFeedbackActive ? 22 : confProgressW} 
-            height="8" rx="2" 
+            x="610" y="270" 
+            width={(activeScenario?.behaviorType === 'low_confidence' && isFeedbackActive ? 22 : confProgressW) * 1.1} 
+            height="10" rx="2.5" 
             fill={activeScenario?.behaviorType === 'low_confidence' && isFeedbackActive ? '#f97316' : '#047857'} 
             className="transition-all duration-500"
           />
@@ -374,10 +367,10 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
 
         {/* REASON → ACT Flow Arrow */}
         <line 
-          x1="678" 
-          y1="222" 
-          x2="696" 
-          y2="222" 
+          x1="690" 
+          y1="221" 
+          x2="704" 
+          y2="221" 
           stroke={isReasonActive || isActActive ? '#16a34a' : '#b0b8ac'} 
           strokeWidth={isReasonActive || isActActive ? '1.5' : '.8'} 
           markerEnd={isReasonActive || isActActive ? 'url(#ag)' : 'url(#a)'}
@@ -389,44 +382,42 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           className={getBlockClasses('ACT', isActActive, 'stroke-emerald-500')}
         >
           <rect 
-            x="698" 
-            y="157" 
-            width="162" 
-            height="134" 
+            x="704" 
+            y="146" 
+            width="172" 
+            height="150" 
             rx="7" 
             fill={isActActive ? 'url(#observeGrad)' : '#fff'} 
             stroke={isActActive ? '#16a34a' : activeBlock === 'ACT' ? '#16a34a' : '#e2e6df'} 
             strokeWidth={isActActive ? '1.5' : '.8'}
           />
-          <rect x="698" y="157" width="3" height="134" rx="1.5" fill="#16a34a"/>
-          {/* Spacing resolved: bullet cx=712, text x=725 (diff is 13px) */}
-          <circle cx="712" cy="178" r="3.5" fill="#16a34a" />
-          <text x="725" y="183" fontFamily="'Space Mono', monospace" fontSize="11" fontWeight="700" fill="#111" letterSpacing=".05em">ACT</text>
-          <text x="712" y="201" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8.5" fill="#9ca3af">actionable alert</text>
+          <rect x="704" y="146" width="3" height="150" rx="1.5" fill="#16a34a"/>
+          <circle cx="720" cy="168" r="4.5" fill="#16a34a" />
+          <text x="733" y="173" fontFamily="'Space Mono', monospace" fontSize="13.5" fontWeight="700" fill="#111" letterSpacing=".05em">ACT</text>
+          <text x="720" y="192" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#9ca3af">actionable alert</text>
           
-          <rect x="712" y="211" width="24" height="13" rx="2.5" fill="#dbeafe"/>
-          <text x="724" y="221.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#1d4ed8" textAnchor="middle" letterSpacing=".04em">LLM</text>
+          <rect x="720" y="202" width="28" height="14" rx="2.5" fill="#dbeafe"/>
+          <text x="734" y="212" fontFamily="'Space Mono', monospace" fontSize="9" fontWeight="700" fill="#1d4ed8" textAnchor="middle" letterSpacing=".04em">LLM</text>
           
-          {/* Dynamic Act progress elements and pricing */}
-          <text x="712" y="239" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#a0a89c">summarizer</text>
-          <rect x="782" y="231" width="60" height="8" rx="2" fill="#f3f4f0"/>
-          <rect x="782" y="231" width={sumProgressW} height="8" rx="2" fill="#10b981" className="transition-all duration-500"/>
+          <text x="720" y="234" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">summarizer</text>
+          <rect x="796" y="225" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="796" y="225" width={sumProgressW * 1.1} height="10" rx="2.5" fill="#10b981" className="transition-all duration-500"/>
           
-          <text x="712" y="255" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#a0a89c">notifier</text>
-          <rect x="782" y="247" width="60" height="8" rx="2" fill="#f3f4f0"/>
-          <rect x="782" y="247" width={notifyProgressW} height="8" rx="2" fill="#34d399" className="transition-all duration-500"/>
+          <text x="720" y="254" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#a0a89c">notifier</text>
+          <rect x="796" y="245" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="796" y="245" width={notifyProgressW * 1.1} height="10" rx="2.5" fill="#34d399" className="transition-all duration-500"/>
           
-          <text x="712" y="271" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#16a34a" fontWeight="500">
+          <text x="720" y="278" fontFamily="'IBM Plex Sans', sans-serif" fontSize="9.5" fill="#16a34a" fontWeight="600">
             {activeScenario ? `${activeScenario.actResults.tokensUsed} tok · $${activeScenario.actResults.costUsd.toFixed(5)}` : '2100 tok · $0.00004'}
           </text>
-          <rect x="782" y="263" width="60" height="8" rx="2" fill="#f3f4f0"/>
-          <rect x="782" y="263" width={tokenProgressW} height="8" rx="2" fill="#047857" className="transition-all duration-500"/>
+          <rect x="796" y="270" width="66" height="10" rx="2.5" fill="#f3f4f0"/>
+          <rect x="796" y="270" width={tokenProgressW * 1.1} height="10" rx="2.5" fill="#047857" className="transition-all duration-500"/>
         </g>
 
         {/* ── FEEDBACK ARC (REASON → OBSERVE when low confidence) ────── */}
         <g className="transition-opacity duration-300">
           <path 
-            d="M597,291 L597,334 L415,334 L415,291" 
+            d="M604,296 L604,334 L418,334 L418,296" 
             fill="none" 
             stroke={isFeedbackActive ? '#f97316' : '#b0b8ac'} 
             strokeWidth={isFeedbackActive ? '1.8' : '.8'} 
@@ -435,35 +426,35 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
             className="transition-all duration-300"
           />
           <rect 
-            x="446" 
-            y="326" 
-            width="162" 
-            height="16" 
-            rx="3" 
+            x="426" 
+            y="325" 
+            width="170" 
+            height="18" 
+            rx="3.5" 
             fill={isFeedbackActive ? '#ffedd5' : '#eef1ec'} 
             className="transition-colors duration-300"
           />
           <text 
-            x="527" 
-            y="338" 
+            x="511" 
+            y="337" 
             fontFamily="'IBM Plex Sans', sans-serif" 
-            fontSize="8" 
+            fontSize="9.5" 
             fill={isFeedbackActive ? '#c2410c' : '#9ca3af'} 
             textAnchor="middle" 
             fontStyle="italic"
             fontWeight={isFeedbackActive ? 'bold' : 'normal'}
             className="transition-all duration-300"
           >
-            {isFeedbackActive ? '↺  low confidence · REcheck triggered!' : '↺  low confidence · re-search'}
+            {isFeedbackActive ? '↺ low conf · REcheck triggered!' : '↺ low confidence · re-search'}
           </text>
         </g>
 
         {/* Harness → Output Guard Connector */}
         <line 
-          x1="886" 
-          y1="222" 
+          x1="888" 
+          y1="228" 
           x2="910" 
-          y2="222" 
+          y2="228" 
           stroke={isOutputGuardActive || isAlertActive ? '#16a34a' : '#b0b8ac'} 
           strokeWidth={isOutputGuardActive || isAlertActive ? '1.5' : '.8'} 
           markerEnd={isOutputGuardActive || isAlertActive ? 'url(#ag)' : 'url(#a)'}
@@ -476,38 +467,39 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
         >
           <rect 
             x="912" 
-            y="158" 
-            width="124" 
-            height="140" 
+            y="150" 
+            width="134" 
+            height="156" 
             rx="7" 
             fill={isOutputGuardActive ? 'url(#selectedGrad)' : '#fff'} 
             stroke={isOutputGuardActive ? '#f97316' : activeBlock === 'OUTPUT GUARDRAIL' ? '#16a34a' : '#e2e6df'} 
             strokeWidth={isOutputGuardActive ? '1.5' : '.8'}
           />
-          {/* Spacing resolved: bullet cx=928, text x=941 (diff is 13px) */}
-          <circle cx="928" cy="178" r="3.5" fill="#f97316"/>
-          <text x="941" y="182" fontFamily="'Space Mono', monospace" fontSize="9.5" fontWeight="700" fill="#374151" letterSpacing=".06em">OUTPUT</text>
-          <text x="941" y="198" fontFamily="'Space Mono', monospace" fontSize="9.5" fontWeight="700" fill="#374151" letterSpacing=".06em">GUARDRAIL</text>
-          <text x="928" y="216" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8.5" fill="#9ca3af">citation · confidence</text>
+          <circle cx="926" cy="172" r="4.5" fill="#f97316"/>
+          <text x="939" y="176" fontFamily="'Space Mono', monospace" fontSize="12" fontWeight="700" fill="#374151" letterSpacing=".06em">OUTPUT</text>
+          <text x="939" y="192" fontFamily="'Space Mono', monospace" fontSize="12" fontWeight="700" fill="#374151" letterSpacing=".06em">GUARDRAIL</text>
+          <text x="926" y="210" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#9ca3af">citation · confidence</text>
           
-          <rect x="928" y="228" width="27" height="13" rx="2.5" fill="#f1f5f9"/>
-          <text x="941.5" y="238.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#475569" textAnchor="middle" letterSpacing=".04em">CPU</text>
-          
-          <rect x="959" y="228" width="27" height="13" rx="2.5" fill="#f0fdf4"/>
-          <text x="972.5" y="238.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#15803d" textAnchor="middle" letterSpacing=".04em">DPU</text>
+          <g>
+            <rect x="926" y="220" width="32" height="15" rx="2.5" fill="#f1f5f9"/>
+            <text x="942" y="231" fontFamily="'Space Mono', monospace" fontSize="9" fontWeight="700" fill="#475569" textAnchor="middle" letterSpacing=".04em">CPU</text>
+            
+            <rect x="964" y="220" width="32" height="15" rx="2.5" fill="#f0fdf4"/>
+            <text x="980" y="231" fontFamily="'Space Mono', monospace" fontSize="9" fontWeight="700" fill="#15803d" textAnchor="middle" letterSpacing=".04em">DPU</text>
+          </g>
           
           {/* Output audit checks */}
-          <text x="928" y="263" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#16a34a">✓ legal disclaimer</text>
-          <text x="928" y="277" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#16a34a">✓ confidence score</text>
-          <text x="928" y="291" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#16a34a">✓ source citations</text>
+          <text x="926" y="256" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#16a34a">✓ legal disclaimer</text>
+          <text x="926" y="272" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#16a34a">✓ confidence score</text>
+          <text x="926" y="288" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#16a34a">✓ source citations</text>
         </g>
 
         {/* Output Guard Approved → SUCCESS ALERT FLOW */}
         <line 
-          x1="1036" 
-          y1="222" 
-          x2="1060" 
-          y2="222" 
+          x1="1046" 
+          y1="228" 
+          x2="1064" 
+          y2="228" 
           stroke={isAlertActive ? '#16a34a' : '#b0b8ac'} 
           strokeWidth={isAlertActive ? '1.5' : '.8'} 
           markerEnd={isAlertActive ? 'url(#ag)' : 'url(#a)'}
@@ -519,36 +511,35 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           className={`cursor-pointer transition-all duration-300 ${isAlertActive ? 'filter drop-shadow-[0_0_12px_rgba(34,197,94,0.45)]' : ''}`}
         >
           <rect 
-            x="1062" 
-            y="186" 
-            width="112" 
-            height="72" 
+            x="1066" 
+            y="180" 
+            width="114" 
+            height="86" 
             rx="7" 
             fill={isAlertActive ? '#f0fdf4' : '#fff'} 
             stroke={isAlertActive ? '#16a34a' : activeBlock === 'ALERT' ? '#16a34a' : '#86efac'} 
             strokeWidth={isAlertActive ? '2' : '.8'}
           />
-          {/* Spacing resolved: bullet cx=1076, text x=1089 (diff is 13px) */}
           <circle 
-            cx="1076" 
-            cy="206" 
-            r="3.5" 
+            cx="1080" 
+            cy="202" 
+            r="4.5" 
             fill="#16a34a" 
             className={isAlertActive ? 'animate-ping' : ''}
-            style={{ transformOrigin: '1076px 206px' }}
+            style={{ transformOrigin: '1080px 202px' }}
           />
-          <circle cx="1076" cy="206" r="3.5" fill="#16a34a" />
-          <text x="1089" y="210" fontFamily="'Space Mono', monospace" fontSize="9.5" fontWeight="700" fill="#15803d" letterSpacing=".05em">ALERT</text>
-          <text x="1076" y="228" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8.5" fill="#16a34a" fontWeight="500">
+          <circle cx="1080" cy="202" r="4.5" fill="#16a34a" />
+          <text x="1093" y="206" fontFamily="'Space Mono', monospace" fontSize="12" fontWeight="700" fill="#15803d" letterSpacing=".05em">ALERT</text>
+          <text x="1080" y="226" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10.5" fill="#16a34a" fontWeight="600">
             {isAlertActive ? 'new update ↗' : 'what changed ↗'}
           </text>
           
-          <rect x="1076" y="242" width="85" height="7" rx="2" fill="#e2e8f0"/>
+          <rect x="1080" y="240" width="86" height="8" rx="2" fill="#e2e8f0"/>
           <rect 
-            x="1076" 
-            y="242" 
-            width={isAlertActive ? 85 : 0} 
-            height="7" 
+            x="1080" 
+            y="240" 
+            width={isAlertActive ? 86 : 0} 
+            height="8" 
             rx="2" 
             fill="#16a34a" 
             className="transition-all duration-1000 ease-out"
@@ -561,27 +552,26 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           className={`cursor-pointer transition-all duration-300 ${isRejectedActive ? 'filter drop-shadow-[0_0_10px_rgba(239,68,68,0.35)]' : ''}`}
         >
           <rect 
-            x="162" 
+            x="158" 
             y="380" 
-            width="124" 
-            height="52" 
+            width="134" 
+            height="66" 
             rx="7" 
             fill={isRejectedActive ? 'url(#rejectGrad)' : '#fff'} 
             stroke={isRejectedActive ? '#ef4444' : activeBlock === 'REJECTED' ? '#ef4444' : '#fecaca'} 
             strokeWidth={isRejectedActive ? '1.8' : '.8'}
           />
-          {/* Spacing resolved: bullet cx=178, text x=191 (diff is 13px) */}
-          <circle cx="178" cy="400" r="3.5" fill="#ef4444" className={isRejectedActive ? 'animate-pulse' : ''}/>
-          <text x="191" y="404" fontFamily="'Space Mono', monospace" fontSize="9.5" fontWeight="700" fill="#ef4444" letterSpacing=".04em">REJECTED</text>
-          <text x="178" y="422" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8" fill="#9ca3af">before network call</text>
+          <circle cx="174" cy="404" r="4.5" fill="#ef4444" className={isRejectedActive ? 'animate-pulse' : ''}/>
+          <text x="187" y="408" fontFamily="'Space Mono', monospace" fontSize="12" fontWeight="700" fill="#ef4444" letterSpacing=".04em">REJECTED</text>
+          <text x="174" y="428" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#9ca3af">before network call</text>
         </g>
 
         {/* ── MEMORY BAR ────────────────────────────────────────────── */}
         {/* Connection vertical from harness bottom to memory */}
         <line 
-          x1="602" 
-          y1="306" 
-          x2="602" 
+          x1="603" 
+          y1="310" 
+          x2="603" 
           y2="378" 
           stroke={isReasonActive || isActActive || isAlertActive ? '#f97316' : '#b0b8ac'} 
           strokeWidth={isReasonActive || isActActive || isAlertActive ? '1.5' : '.8'} 
@@ -595,24 +585,23 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           <rect 
             x="318" 
             y="380" 
-            width="568" 
-            height="66" 
+            width="570" 
+            height="76" 
             rx="7" 
             fill="#fff" 
             stroke={activeBlock === 'MEMORY' ? '#f97316' : '#fed7aa'} 
             strokeWidth={activeBlock === 'MEMORY' ? '1.8' : '.8'}
           />
-          {/* Spacing resolved: bullet cx=336, text x=349 (diff is 13px) */}
-          <circle cx="336" cy="404" r="4" fill="#f97316"/>
-          <text x="349" y="408" fontFamily="'Space Mono', monospace" fontSize="10" fontWeight="700" fill="#374151" letterSpacing=".05em">MEMORY</text>
+          <circle cx="336" cy="404" r="5" fill="#f97316"/>
+          <text x="349" y="408" fontFamily="'Space Mono', monospace" fontSize="12" fontWeight="700" fill="#374151" letterSpacing=".05em">MEMORY</text>
           
           {/* vertical separator */}
           <line x1="436" y1="394" x2="436" y2="414" stroke="#e2e6df" strokeWidth="1"/>
           
-          <text x="446" y="404" fontFamily="'IBM Plex Sans', sans-serif" fontSize="8.5" fill="#9ca3af">sources · preferences · alerts</text>
+          <text x="446" y="408" fontFamily="'IBM Plex Sans', sans-serif" fontSize="11" fill="#9ca3af">sources · preferences · alerts</text>
           
           {/* Dynamic real-time stats display in Memory block! */}
-          <text x="734" y="401" fontFamily="'Space Mono', monospace" fontSize="7.5" fill="#9ca3af" textAnchor="end">
+          <text x="734" y="407" fontFamily="'Space Mono', monospace" fontSize="9.5" fill="#9ca3af" textAnchor="end">
             {activeScenario?.behaviorType === 'low_confidence' 
               ? 'Sources: 4  ·  Prefs: 1  ·  Alerts: 1'
               : activeScenario?.behaviorType === 'injection'
@@ -621,19 +610,19 @@ export const ArchitectureDiagram: React.FC<ArchitectureDiagramProps> = ({
           </text>
           
           <g>
-            <rect x="742" y="393" width="26" height="13" rx="2.5" fill="#f1f5f9"/>
-            <text x="755" y="403.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#475569" textAnchor="middle" letterSpacing=".03em">CPU</text>
-            <rect x="771" y="393" width="26" height="13" rx="2.5" fill="#f0fdf4"/>
-            <text x="784" y="403.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#15803d" textAnchor="middle" letterSpacing=".03em">DPU</text>
-            <rect x="800" y="393" width="33" height="13" rx="2.5" fill="#ede9fe"/>
-            <text x="816.5" y="403.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#6d28d9" textAnchor="middle" letterSpacing=".03em">CUDA</text>
-            <rect x="836" y="393" width="26" height="13" rx="2.5" fill="#dbeafe"/>
-            <text x="849" y="403.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#1d4ed8" textAnchor="middle" letterSpacing=".03em">LLM</text>
-            <rect x="865" y="393" width="21" height="13" rx="2.5" fill="#fef3c7"/>
-            <text x="875.5" y="403.5" fontFamily="'Space Mono', monospace" fontSize="7.5" fontWeight="700" fill="#92400e" textAnchor="middle" letterSpacing=".03em">NET</text>
+            <rect x="742" y="396" width="26" height="14" rx="2.5" fill="#f1f5f9"/>
+            <text x="755" y="406.5" fontFamily="'Space Mono', monospace" fontSize="8" fontWeight="700" fill="#475569" textAnchor="middle" letterSpacing=".03em">CPU</text>
+            <rect x="771" y="396" width="26" height="14" rx="2.5" fill="#f0fdf4"/>
+            <text x="784" y="406.5" fontFamily="'Space Mono', monospace" fontSize="8" fontWeight="700" fill="#15803d" textAnchor="middle" letterSpacing=".03em">DPU</text>
+            <rect x="800" y="396" width="33" height="14" rx="2.5" fill="#ede9fe"/>
+            <text x="816.5" y="406.5" fontFamily="'Space Mono', monospace" fontSize="8" fontWeight="700" fill="#6d28d9" textAnchor="middle" letterSpacing=".03em">CUDA</text>
+            <rect x="836" y="396" width="26" height="14" rx="2.5" fill="#dbeafe"/>
+            <text x="849" y="406.5" fontFamily="'Space Mono', monospace" fontSize="8" fontWeight="700" fill="#1d4ed8" textAnchor="middle" letterSpacing=".03em">LLM</text>
+            <rect x="865" y="396" width="21" height="14" rx="2.5" fill="#fef3c7"/>
+            <text x="875.5" y="406.5" fontFamily="'Space Mono', monospace" fontSize="8" fontWeight="700" fill="#92400e" textAnchor="middle" letterSpacing=".03em">NET</text>
           </g>
 
-          <text x="336" y="434" fontFamily="'IBM Plex Sans', sans-serif" fontSize="7.5" fill="#9ca3af">
+          <text x="336" y="438" fontFamily="'IBM Plex Sans', sans-serif" fontSize="10" fill="#9ca3af">
             idempotent writes  ·  deduped URLs  ·  per-stage checkpoints  ·  diff vs stored
           </text>
         </g>
